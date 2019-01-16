@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# export PULP3_HOST=myhostname.com
+# export PULP3_HOST=$HOSTNAME
 # export PULP3_PLAYBOOK=source-install-plugins.yml
 # curl https://raw.githubusercontent.com/PulpQE/pulp-qe-tools/master/pulp3/install_pulp3/install.sh | bash
 
@@ -44,8 +44,8 @@ git clone https://github.com/pulp/ansible-pulp3.git
 
 # apply fix to editable mode (cannot use editable mode when installing from github tarball)
 # FIXME: The installer must have this flag as a variable -e pip_editable=false
-sed -i -e 's/editable: yes/editable: no/g' ./ansible-pulp3/roles/pulp3/tasks/install.yml
-sed -i -e 's/editable:yes/editable: no/g' ./ansible-pulp3/roles/pulp3/tasks/install.yml
+# sed -i -e 's/editable: yes/editable: no/g' ./ansible-pulp3/roles/pulp3/tasks/install.yml
+# sed -i -e 's/editable:yes/editable: no/g' ./ansible-pulp3/roles/pulp3/tasks/install.yml
 
 # pip should be updated
 # FIXME: installer should take care of it.
@@ -66,7 +66,7 @@ echo "Available roles."
 ansible-galaxy list
 
 echo "Starting Pulp 3 Installation."
-ansible-playbook -v -i "${HOST}", -u root install.yml 
+ansible-playbook -v -i "${HOST}", -u root install.yml -e pulp_pip_editable=no 
 
 echo "Cleaning."
 popd
